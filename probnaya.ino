@@ -224,7 +224,7 @@ int display_page()
       lcd.setCursor(0, 1);
       if(hour < 10)
       {lcd.print("0");}
-      lcd.print(hour);     //намечатать с нулями и двоеточиями
+      lcd.print(hour);     
       lcd.print(":");
       if(min < 10)
       {lcd.print("0");}
@@ -329,16 +329,76 @@ int display_page()
       
        if(Select_menu == 0) //Установка времён
       {
-         lcd.print("B pa\267pa\262o\277\272e");
-      }
-
+        int sec = now.second();
+        int min = now.minute();
+        int hour = now.hour();
+        int cursor_pos = 0; 
+        int select = 0;
+        int znak = 0;
+        while(true)
+       {     
+        delay(200);
+        lcd.setCursor(0, 0);
+        lcd.print("B\303c\277a\263\270\277e \263pe\274\307");
+        if (!digitalRead(3))
+        {select = (select-1);
+        if (select < 0) select = 0;}
+        if (!digitalRead(6))
+        {select = (select+1);
+        if(select > 5) select = 5;}
+      
+        lcd.setCursor(0, 1);
+        if(hour < 10)
+        {lcd.print("0");}
+        lcd.print(hour);     
+        lcd.print(":");
+        if(min < 10)
+        {lcd.print("0");}
+        lcd.print(min);
+        lcd.print(":");
+        if(sec < 10)
+        {lcd.print("0");}
+        lcd.print(sec);
+        if (select < 2)
+       { 
+        cursor_pos = select;
+       }
+        if (select >= 2 && select < 4)
+       {
+        cursor_pos = select + 1;
+       }
+        if (select >= 4)
+       {
+        cursor_pos = select + 2;
+       }
+        lcd.setCursor(cursor_pos, 1);
+        lcd.cursor();
+        
+        if(!digitalRead(7) || !digitalRead (2))
+       {
+        if(!digitalRead (7)) {znak = 1;}
+        if(!digitalRead (2)) {znak = -1;} 
+        if(select == 0) {hour = hour + (10*znak);}
+        if(select == 1) {hour = hour + (1*znak);}
+        if(select == 2) {min = min + (10*znak);}
+        if(select == 3) {min = min + (1*znak);}
+        if(select == 4) {sec = sec + (10*znak);}
+        if(select == 5) {sec = sec + (1*znak);}
+        if(sec < 0) {sec = 59;}
+        if(min < 0) {min = 59;}
+        if(hour < 0) {hour = 23;}
+        if(sec >= 60) {sec = 0;}
+        if(min >= 60) {min = 0;}
+        if(hour >= 24) {hour = 0;}
+       } 
+      
       if (!digitalRead(A0))
       {
         menu_page = 0;
         return 0;
       }
-
-    
+     }
+    }
     lcd.noBlink();
     
   }
