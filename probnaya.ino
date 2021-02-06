@@ -397,9 +397,50 @@ int display_page()
         menu_page = 0;
         return 0;
       }
+     
+     if(!digitalRead(4))
+     {
+      int day = now.day();
+      int month = now.month();
+      int select = 0;
+      int znak = 0;
+      while(true)
+      {
+        int max_day_per_month = 0;
+        lcd.clear();
+        lcd.setCursor(0, 0);
+        lcd.print("B\303c\277a\263\270\277e \343a\277y");
+        lcd.setCursor(2, 1);
+        lcd.print(now.day());
+        lcd.setCursor(6, 1);
+        lcd.print(month_str[now.month() - 1]);
+        if(now.month() == 0) {max_day_per_month = 31;}
+        if(now.month() == 1) {max_day_per_month = 28;}
+        if(now.month() == 2) {max_day_per_month = 31;}
+        if(now.month() == 3) {max_day_per_month = 30;}
+        if(now.month() == 4) {max_day_per_month = 31;}
+        if(now.month() == 5) {max_day_per_month = 30;}
+        if(now.month() == 6) {max_day_per_month = 31;}
+        if(now.month() == 7) {max_day_per_month = 31;}
+        if(now.month() == 8) {max_day_per_month = 30;}
+        if(now.month() == 9) {max_day_per_month = 31;}
+        if(now.month() == 10) {max_day_per_month = 30;}
+        if(now.month() == 11) {max_day_per_month = 31;}
+        delay(200);
+         if(!digitalRead(7) || !digitalRead (2))
+       {
+        if(!digitalRead (7)) {znak = 1;}
+        if(!digitalRead (2)) {znak = -1;} 
+        if(select == 3) {day = day + (10*znak);}
+        if(select == 4) {day = day + (1*znak);}
+        if(select == 6) {month = (month_str[now.month() - 1]) + (1*znak);}
+        if(day > max_day_per_month) {month++;}
+        delay(200);
+      }
      }
     }
+   }
     lcd.noBlink();
     
   }
- 
+}
