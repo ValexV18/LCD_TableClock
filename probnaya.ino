@@ -428,7 +428,7 @@ int display_page()
         if(month == 9) {max_day_per_month = 31;}
         if(month == 10) {max_day_per_month = 30;}
         if(month == 11) {max_day_per_month = 31;}
-//        delay(200);
+//         delay(200);
         if(!digitalRead (3)) {select = 2;}
         if(!digitalRead (6)) {select = 3;}  
         
@@ -441,13 +441,19 @@ int display_page()
         if(select == 3) {day = day + (1*znak);}
 //        if(select == 6) {month = (month_str[now.month() - 1]) + (1*znak);}
         if(day > max_day_per_month) {month++; day = 1;}
-        if(day < 0) {month--; day = 27;}
-        
+        if(day < 1) {month--; day = 27;} 
+       }
+       delay(100);  
+       if(!digitalRead (4))
+      {
+        RTC.adjust(DateTime(now.year(), month + 1, day, hour, min, sec));
+        menu_page = 0;
+        return 0;
       }
-      delay(200);
+       delay(200); 
        if (!digitalRead(A0))
        {menu_page = 0; return 0;}
-     }
+      }
      }
     }
    }
