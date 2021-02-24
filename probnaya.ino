@@ -54,6 +54,9 @@ String time_now;
 int Select_menu = 4;
 char *month_str[] = {"\261\275\263ap\307", "\252e\263pa\273\307", "Map\277a", "A\276pe\273\307", "Ma\307", "\270\306\275\307", "\270\306\273\307", "A\263\264yc\277a", "Ce\275\277\307\262p\307", "O\272\277\307\262p\307", "Ho\307\262p\307", "\340e\272a\262p\307"};
 int menu_page = 0;
+int bemin;
+int behour;
+bool be_on = false;
 
 void setup()
 {
@@ -318,7 +321,32 @@ int display_page()
 }
       if(Select_menu == 2) //Будильник
       {
-         lcd.print("B pa\267pa\262o\277\272e");
+       int bemin = now.minute();
+       int behour = now.hour();
+       int select = 0;
+       int cursor_pos = 0;
+       while(true)
+       {
+        delay(100);
+       lcd.setCursor(0, 0); 
+       lcd.print("B\303c\277a\263\270\277e \263pe\274\307");
+       lcd.setCursor(0, 1);
+       if(behour < 10)
+       {lcd.print("0");}
+       lcd.print(behour);     
+       lcd.print(":");
+       if(bemin < 10)
+       {lcd.print("0");}
+       lcd.print(bemin);
+       if(!digitalRead (3))
+       {select = (select-1);
+       if (select < 0) select = 0;}
+       if (!digitalRead(6))
+       {select = (select+1);}
+       if(select >= 5) {select = 5;}
+       lcd.setCursor(select, 1);
+       lcd.cursor();
+       }
       }
 
       if (!digitalRead(A0))
@@ -339,7 +367,7 @@ int display_page()
        {     
         delay(200);
         lcd.setCursor(0, 0);
-        lcd.print("B\303c\277a\263\270\277e \263pe\274\307");
+        lcd.print("\251c\277a\263\270\277e \263pe\274\307");
         if (!digitalRead(3))
         {select = (select-1);
         if (select < 0) select = 0;}
