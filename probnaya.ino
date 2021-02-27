@@ -57,6 +57,7 @@ int menu_page = 0;
 int bemin;
 int behour;
 bool be_on = false;
+bool ON_OFF = false;
 
 void setup()
 {
@@ -321,15 +322,24 @@ int display_page()
 }
       if(Select_menu == 2) //Будильник
       {
-       int bemin = now.minute();
-       int behour = now.hour();
+//       bemin = now.minute();
+//       behour = hour();
        int select = 0;
        int cursor_pos = 0;
+       int znak = 0;
        while(true)
        {
-        delay(100);
+       delay(200);
+       lcd.clear();
        lcd.setCursor(0, 0); 
        lcd.print("B\303c\277a\263\270\277e \263pe\274\307");
+       if(!digitalRead (3))
+       {select = (select-1);
+       if (select < 0) select = 0;}
+       if (!digitalRead(6))
+       {select = (select+1);} 
+       if(select > 5) {select = 5;}      
+       
        lcd.setCursor(0, 1);
        if(behour < 10)
        {lcd.print("0");}
@@ -338,15 +348,37 @@ int display_page()
        if(bemin < 10)
        {lcd.print("0");}
        lcd.print(bemin);
-       if(!digitalRead (3))
-       {select = (select-1);
-       if (select < 0) select = 0;}
-       if (!digitalRead(6))
-       {select = (select+1);}
-       if(select >= 5) {select = 5;}
-       lcd.setCursor(select, 1);
+       if(ON_OFF) {lcd.print(" BK\247");}
+       else {lcd.print(" B\256K\247");}
+       if(select < 2) {cursor_pos = select;} 
+       if (select >= 2 and select < 4) {cursor_pos = select + 1;}
+       if(select > 3) {cursor_pos = select+2;} 
+       lcd.setCursor(cursor_pos, 1);
        lcd.cursor();
+
+        if(!digitalRead(7) || !digitalRead (2))
+       {
+        if(!digitalRead (7)) {znak = 1;}
+        if(!digitalRead (2)) {znak = -1;} 
+        if(select == 0) {behour = behour + (10*znak);}
+        if(select == 1) {behour = behour + (1*znak);}
+        if(select == 2) {bemin = bemin + (10*znak);}
+        if(select == 3) {bemin = bemin + (1*znak);}
+        if(select == 4) {ON_OFF = !ON_OFF;}
+        if(bemin < 0) {bemin = 59;}
+        if(behour < 0) {behour = 23;}
+        if(bemin >= 60) {bemin = 0;}
+        if(behour >= 24) {behour = 0;}
        }
+        
+          if (!digitalRead(A0))
+         {
+          menu_page = 0;
+          return 0;
+         }      
+       }
+       if(!digitalRead(4))
+       
       }
 
       if (!digitalRead(A0))
