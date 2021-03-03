@@ -1,45 +1,4 @@
-/*
-  LiquidCrystal Library - scrollDisplayLeft() and scrollDisplayRight()
 
-  Demonstrates the use a 16x2 LCD display.  The LiquidCrystal
-  library works with all LCD displays that are compatible with the
-  Hitachi HD44780 driver. There are many of them out there, and you
-  can usually tell them by the 16-pin interface.
-
-  This sketch prints "Hello World!" to the LCD and uses the
-  scrollDisplayLeft() and scrollDisplayRight() methods to scroll
-  the text.
-
-  The circuit:
-   LCD RS pin to digital pin 12
-   LCD Enable pin to digital pin 11
-   LCD D4 pin to digital pin 5
-   LCD D5 pin to digital pin 4
-   LCD D6 pin to digital pin 3
-   LCD D7 pin to digital pin 2
-   LCD R/W pin to ground
-   10K resistor:
-   ends to +5V and ground
-   wiper to LCD VO pin (pin 3)
-
-  Library originally added 18 Apr 2008
-  by David A. Mellis
-  library modified 5 Jul 2009
-  by Limor Fried (http://www.ladyada.net)
-  example added 9 Jul 2009
-  by Tom Igoe
-  modified 22 Nov 2010
-  by Tom Igoe
-  modified 7 Nov 2016
-  by Arturo Guadalupi
-
-  This example code is in the public domain.
-
-  http://www.arduino.cc/en/Tutorial/LiquidCrystalScroll
-
-*/
-
-// include the library code:
 #include <RTClib.h>
 #include <LiquidCrystal.h>
 
@@ -62,10 +21,7 @@ bool ON_OFF = false;
 void setup()
 {
   Serial.begin(9600);
-  // set up the LCD's number of columns and rows:
   lcd.begin(16, 2);
-  // Print a message to the LCD.
-  //lcd.print(set_sekundomer);
   delay(1000);
   pinMode(2, INPUT_PULLUP);
   pinMode(7, INPUT_PULLUP);
@@ -99,7 +55,7 @@ void loop() {
   if (Select_menu == -1) Select_menu = 4;
   if (menu_page == -1) menu_page = 0;
   lcd.clear();
-  if (menu_page == 0 )
+  if (menu_page == 0)
   {
     display_menu();
   }
@@ -110,7 +66,24 @@ void loop() {
   Serial.print(",");
   Serial.println(menu_page);
   delay(200);
-
+  if (now.hour() == behour && now.minute() == bemin && ON_OFF) 
+  {
+    while(true)
+    {
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print("Bc\277a\263a\271,");  
+    lcd.setCursor(0, 1);
+    lcd.print("\272o\266a\275\275\303\271 \343py\264");
+    delay(200);
+    
+    if(!digitalRead(2) || !digitalRead(3) || !digitalRead(4) || !digitalRead(6) || !digitalRead(7) || !digitalRead(A0))
+    {
+     menu_page = 0;
+     return 0;
+    }
+   } 
+  }
 
 
 }
@@ -137,6 +110,8 @@ void display_menu()
       lcd.print("0");
     }
     lcd.print(now.minute());
+
+   
   }
 }
 
@@ -315,11 +290,11 @@ int display_page()
           lcd.print(delta_timer / 1000 % 60);
           delay(20);
         
+           }
+         return 0;           
+          }
+        }
       }
-      return 0;           
-    }
-  }
-}
       if(Select_menu == 2) //Будильник
       {
 //       bemin = now.minute();
@@ -371,15 +346,17 @@ int display_page()
         if(behour >= 24) {behour = 0;}
        }
         
-          if (!digitalRead(A0))
+       
+         if (!digitalRead(A0))
          {
           menu_page = 0;
           return 0;
          }      
        }
-       if(!digitalRead(4))
+     }
        
-      }
+      
+      
 
       if (!digitalRead(A0))
       {
@@ -457,6 +434,7 @@ int display_page()
         menu_page = 0;
         return 0;
       }
+       
      
      if(!digitalRead(4))
      {
@@ -516,7 +494,8 @@ int display_page()
       }
      }
     }
-   }
+   
     lcd.noBlink();
     
  }
+}
