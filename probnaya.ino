@@ -29,6 +29,8 @@ void setup()
   pinMode(A0, INPUT_PULLUP);
   pinMode(3, INPUT_PULLUP);
   pinMode(6, INPUT_PULLUP);
+  pinMode(A1, OUTPUT);
+  
   RTC.begin();
   if (! RTC.isrunning()) {
     Serial.println("RTC is NOT running!");
@@ -37,7 +39,7 @@ void setup()
 
 void loop() {
   now = RTC.now();
-
+  digitalWrite(A1, digitalRead(A3));
   if (!digitalRead(2)) { //нижняя
     Select_menu = Select_menu + 1;
   }
@@ -75,10 +77,12 @@ void loop() {
     lcd.print("Bc\277a\263a\271,");  
     lcd.setCursor(0, 1);
     lcd.print("\272o\266a\275\275\303\271 \343py\264");
+    
     delay(200);
     
     if(!digitalRead(2) || !digitalRead(3) || !digitalRead(4) || !digitalRead(6) || !digitalRead(7) || !digitalRead(A0))
     {
+     ON_OFF = false; 
      menu_page = 0;
      return 0;
     }
@@ -297,8 +301,6 @@ int display_page()
       }
       if(Select_menu == 2) //Будильник
       {
-//       bemin = now.minute();
-//       behour = hour();
        int select = 0;
        int cursor_pos = 0;
        int znak = 0;
@@ -345,19 +347,15 @@ int display_page()
         if(bemin >= 60) {bemin = 0;}
         if(behour >= 24) {behour = 0;}
        }
-        
-       
+               
          if (!digitalRead(A0))
          {
           menu_page = 0;
           return 0;
          }      
        }
-     }
-       
-      
-      
-
+     }       
+            
       if (!digitalRead(A0))
       {
         menu_page = 0;
