@@ -38,65 +38,59 @@
 #include <RTClib.h>
 #include <LiquidCrystal.h>
 
-int tempo = 90;
+int tempo = 95;
 int buzzer = 5; 
 int melody[] = {
 
-  NOTE_D5,7, NOTE_E5,1,  //1
-  NOTE_G5,7, NOTE_C5,1,  //2
-  NOTE_A4,7, NOTE_E5,1,  //3
-  NOTE_C5,7, NOTE_G4,1,  //4
+  NOTE_AS3,8, NOTE_AS3,8, NOTE_AS3,8, NOTE_AS3,8,
+  NOTE_D4,8, NOTE_D4,8, NOTE_D4,8, NOTE_D4,8,
+  NOTE_C4,8, NOTE_C4,8, NOTE_C4,8, NOTE_C4,8,
+  NOTE_F4,8, NOTE_F4,8, NOTE_F4,8, NOTE_F4,8,
+  NOTE_G4,8, NOTE_G4,8, NOTE_G4,8, NOTE_G4,8, NOTE_G4,8, NOTE_G4,8, NOTE_G4,8, NOTE_G4,8, NOTE_G4,8, NOTE_G4,8, NOTE_G4,8, NOTE_G4,8,
+ 
+  NOTE_C4,8, NOTE_AS3,8, NOTE_A3,8, NOTE_F3,8, NOTE_G3,6,
+  NOTE_G3,8, NOTE_D4,8, NOTE_C4,6,
+  NOTE_AS3,6, NOTE_A3,6, NOTE_A3,8, NOTE_A3,8, NOTE_C4,6,
+  NOTE_AS3,8, NOTE_A3,8, NOTE_G3,6,
+  NOTE_G3,6, NOTE_AS4,8, NOTE_A4,8, NOTE_AS4,8, NOTE_A4,8, NOTE_AS4,8, NOTE_G3,6,
+  
+  NOTE_G3,8, NOTE_AS4,8, NOTE_A4,8, NOTE_AS4,8, NOTE_A4,8, NOTE_AS4,8, NOTE_G3,6,
+  NOTE_G3,8, NOTE_D4,8, NOTE_C4,6,
+  NOTE_AS3,6, NOTE_A3,6, NOTE_A3,8, NOTE_A3,8, NOTE_C4,6,
+  NOTE_AS3,8, NOTE_A3,8, NOTE_G3,6,
+  NOTE_G3,8, NOTE_AS4,8, NOTE_A4,8, NOTE_AS4,8, NOTE_A4,8, NOTE_AS4,8, NOTE_G3,6,
+ 
+  NOTE_G3,8, NOTE_AS4,8, NOTE_A4,8, NOTE_AS4,8, NOTE_A4,8, NOTE_AS4,8, NOTE_G3,6,
+  NOTE_G3,8, NOTE_D4,8, NOTE_C4,6,
+  NOTE_AS3,6, NOTE_A3,6, NOTE_A3,8, NOTE_A3,8, NOTE_C4,6,
+  NOTE_AS3,8, NOTE_A3,8, NOTE_G3,6,
+  NOTE_G3,8, NOTE_AS4,8, NOTE_A4,8, NOTE_AS4,8, NOTE_A4,8, NOTE_AS4,8, NOTE_G3,6,
+  
+  NOTE_G3,8, NOTE_AS4,8, NOTE_A4,8, NOTE_AS4,8, NOTE_A4,8, NOTE_AS4,8, 
+  NOTE_AS3,8, NOTE_AS3,8, NOTE_AS3,8, NOTE_AS3,8,
+  NOTE_D4,8, NOTE_D4,8, NOTE_D4,8, NOTE_D4,8,
+  NOTE_C4,8, NOTE_C4,8, NOTE_C4,8, NOTE_C4,8,
+  NOTE_F4,8, NOTE_F4,8, NOTE_F4,8, NOTE_F4,8,
+  NOTE_G4,8, NOTE_G4,8, NOTE_G4,8, NOTE_G4,8, NOTE_G4,8, NOTE_G4,8, NOTE_G4,8, NOTE_G4,8, NOTE_G4,8, NOTE_G4,8, NOTE_G4,8, NOTE_G4,8,
 
-  NOTE_G4,8, NOTE_G4,8, NOTE_G4,8, NOTE_F4,8, NOTE_E4,3, //1
-  NOTE_D4,8, NOTE_D4,8, NOTE_E4,8, NOTE_D4,5, NOTE_C4,3, //2
-  NOTE_G4,8, NOTE_G4,8, NOTE_G4,8, NOTE_A4,8, NOTE_G4,3, //3
-  NOTE_C4,8, NOTE_C4,6, NOTE_B4,2, //4
-  NOTE_G4,8, NOTE_G4,8, NOTE_G4,8, NOTE_F4,8, NOTE_E4,3, //1
-  NOTE_D4,8, NOTE_D4,8, NOTE_E4,8, NOTE_D4,5, NOTE_C4,3, //2
-  NOTE_G4,8, NOTE_G4,8, NOTE_G4,8, NOTE_A4,8, NOTE_G4,3, //3
-  NOTE_C4,8, NOTE_C4,6, NOTE_B4,2, //4
+  NOTE_C4,8, NOTE_AS3,8, NOTE_A3,8, NOTE_F3,8, NOTE_G3,6,
+  NOTE_G3,8, NOTE_D4,8, NOTE_C4,6,
+  NOTE_AS3,6, NOTE_A3,6, NOTE_A3,8, NOTE_A3,8, NOTE_C4,6,
+  NOTE_AS3,8, NOTE_A3,8, NOTE_G3,6,
+  NOTE_G3,8, NOTE_AS4,8, NOTE_A4,8, NOTE_AS4,8, NOTE_A4,8, NOTE_AS4,8, NOTE_G3,6,
+  
+  NOTE_G3,8, NOTE_AS4,8, NOTE_A4,8, NOTE_AS4,8, NOTE_A4,8, NOTE_AS4,8, NOTE_G3,6,
+  NOTE_G3,8, NOTE_D4,8, NOTE_C4,6,
+  NOTE_AS3,6, NOTE_A3,6, NOTE_A3,8, NOTE_A3,8, NOTE_C4,6,
+  NOTE_AS3,8, NOTE_A3,8, NOTE_G3,6,
+  NOTE_G3,8, NOTE_AS4,8, NOTE_A4,8, NOTE_AS4,8, NOTE_A4,8, NOTE_AS4,8, NOTE_G3,6,
 
-  NOTE_C5,4, NOTE_B4,8, NOTE_A4,5, //1
-  NOTE_B4,8, NOTE_C5,8, NOTE_D5,5, 
-  NOTE_C5,8, NOTE_B4,7,            //2
-  NOTE_C5,8, NOTE_B4,8, NOTE_A4,5, 
-  NOTE_B4,8, NOTE_C5,7,            //3
-  NOTE_B4,8, NOTE_C5,8, NOTE_D5,5,
-  NOTE_C5,8, NOTE_D5,7, NOTE_E5,5, //4
-  NOTE_C5,4, NOTE_B4,8, NOTE_A4,5, //1
-  NOTE_B4,8, NOTE_C5,8, NOTE_D5,5, 
-  NOTE_C5,8, NOTE_B4,7,            //2
-  NOTE_C5,8, NOTE_B4,8, NOTE_A4,5, 
-  NOTE_B4,8, NOTE_C5,7,            //3
-  NOTE_B4,8, NOTE_C5,8, NOTE_D5,5,
-  NOTE_C5,8, NOTE_D5,7, NOTE_E5,5, NOTE_A4,1, //4
-
-  NOTE_B3,8, NOTE_G4,8, NOTE_E4,-1,  //1
-  NOTE_B3,8, NOTE_G4,8, NOTE_E4,-1,  //2
-  NOTE_B3,8, NOTE_G4,8, NOTE_E4,-1,  //3
-  NOTE_B3,8, NOTE_G4,8, NOTE_E4, 1,  //4
-
-  NOTE_B3,8, NOTE_E4,8, NOTE_FS4,8, NOTE_G4,2,  //1
-  NOTE_FS4,8, NOTE_E4,8, NOTE_FS4,8, NOTE_G4,2,  //2
-  NOTE_FS4,8, NOTE_E4,8, NOTE_FS4,8, NOTE_G4,2,  //3
-  NOTE_B3,8, NOTE_E4,8, NOTE_FS4,8, NOTE_G4,3, NOTE_FS4,5, //4
-  NOTE_B3,8, NOTE_E4,8, NOTE_FS4,8, NOTE_G4,2,  //1
-  NOTE_FS4,8, NOTE_E4,8, NOTE_FS4,8, NOTE_G4,2,  //2
-  NOTE_FS4,8, NOTE_E4,8, NOTE_FS4,8, NOTE_G4,2,  //3
-  NOTE_B3,8, NOTE_E4,8, NOTE_FS4,8, NOTE_G4,3, NOTE_FS4,5, //4
-  NOTE_B3,8, NOTE_E4,8, NOTE_FS4,8, NOTE_G4,2,  //1
-  NOTE_B3,8, NOTE_E4,8, NOTE_FS4,8, NOTE_G4,2,  //2
-  NOTE_B3,8, NOTE_E4,8, NOTE_FS4,8, NOTE_G4,2,  //3
-  NOTE_B3,8, NOTE_E4,8, NOTE_FS4,8, NOTE_G4,3, NOTE_FS4,5, //4
-  NOTE_B3,8, NOTE_E4,8, NOTE_FS4,8, NOTE_G4,2,  //1
-  NOTE_B3,8, NOTE_E4,8, NOTE_FS4,8, NOTE_G4,2,  //2
-  NOTE_B3,8, NOTE_E4,8, NOTE_FS4,8, NOTE_G4,2,  //3
-  NOTE_B3,8, NOTE_E4,8, NOTE_FS4,8, NOTE_G4,3, NOTE_FS4,1, //4
-
-  NOTE_B3,8, NOTE_G4,8, NOTE_E4,-1,  //1
-  NOTE_B3,8, NOTE_G4,8, NOTE_E4,-1,  //2
-  NOTE_B3,8, NOTE_G4,8, NOTE_E4,-1,  //3
-  NOTE_B3,8, NOTE_G4,8, NOTE_E4, 1,  //4
+  NOTE_G3,8, NOTE_AS4,8, NOTE_A4,8, NOTE_AS4,8, NOTE_A4,8, NOTE_AS4,8,
+  NOTE_AS3,8, NOTE_AS3,8, NOTE_AS3,8, NOTE_AS3,8,
+  NOTE_D4,8, NOTE_D4,8, NOTE_D4,8, NOTE_D4,8,
+  NOTE_C4,8, NOTE_C4,8, NOTE_C4,8, NOTE_C4,8,
+  NOTE_F4,8, NOTE_F4,8, NOTE_F4,8, NOTE_F4,8,
+  NOTE_G4,8, NOTE_G4,8, NOTE_G4,8, NOTE_G4,8, NOTE_G4,8, NOTE_G4,8, NOTE_G4,8, NOTE_G4,8, NOTE_G4,8, NOTE_G4,8, NOTE_G4,8, NOTE_G4,8,
     
 };
 int notes = sizeof(melody) / sizeof(melody[0]) / 2;
@@ -121,17 +115,6 @@ bool ON_OFF = false;
 void setup()
 {
   Serial.begin(9600);
-  for (int thisNote = 0; thisNote < notes * 2; thisNote = thisNote + 2) {
-    divider = melody[thisNote + 1];
-    if (divider > 0) 
-    {noteDuration = (wholenote) / divider;} 
-      else if (divider < 0) 
-      {noteDuration = (wholenote) / abs(divider);
-      noteDuration *= 1.5;}
-    tone(buzzer, melody[thisNote], noteDuration * 0.9);
-    delay(noteDuration);
-    noTone(buzzer);
-  }
   lcd.begin(16, 2);
   delay(1000);
   pinMode(2, INPUT_PULLUP);
@@ -146,6 +129,13 @@ void setup()
   if (! RTC.isrunning()) {
     Serial.println("RTC is NOT running!");
   }
+}
+
+void song() {
+  Serial.println(9600);
+  // iterate over the notes of the melody.
+  // Remember, the array is twice the number of notes (notes + durations)
+
 }
 
 void loop() {
@@ -183,20 +173,31 @@ void loop() {
   {
     while(true)
     {
-    lcd.clear();
-    lcd.setCursor(0, 0);
-    lcd.print("Bc\277a\263a\271,");  
-    lcd.setCursor(0, 1);
-    lcd.print("\272o\266a\275\275\303\271 \343py\264");
+       for (int thisNote = 0; thisNote < notes * 2; thisNote = thisNote + 2) 
+       {
+        lcd.clear();
+        lcd.setCursor(0, 0);
+        lcd.print("Bc\277a\263a\271,");  
+        lcd.setCursor(0, 1);
+        lcd.print("\250poc\275\270c\304 \245 \250o\271");
+        divider = melody[thisNote + 1];
+        if (divider > 0) 
+          {noteDuration = (wholenote) / divider;} 
+        else if (divider < 0) 
+        {noteDuration = (wholenote) / abs(divider);
+        noteDuration *= 1.5;}
+        tone(buzzer, melody[thisNote], noteDuration * 0.9);
+        delay(noteDuration);
+        noTone(buzzer);
+        
+          if(!digitalRead(2) || !digitalRead(3) || !digitalRead(4) || !digitalRead(6) || !digitalRead(7) || !digitalRead(A0))
+          {
+            ON_OFF = false; 
+            menu_page = 0;
+            return 0;
+          }
+        }
     
-    delay(200);
-    
-    if(!digitalRead(2) || !digitalRead(3) || !digitalRead(4) || !digitalRead(6) || !digitalRead(7) || !digitalRead(A0))
-    {
-     ON_OFF = false; 
-     menu_page = 0;
-     return 0;
-    }
    } 
   }
 
@@ -211,7 +212,6 @@ void display_menu()
   }
   else
   {
-    //lcd.print(now.month());
     lcd.setCursor(6, 0);
     lcd.print(month_str[now.month() - 1]);
     lcd.setCursor(3, 0);
@@ -219,7 +219,6 @@ void display_menu()
     lcd.setCursor(5, 1);
     lcd.print(now.hour());
     lcd.print(":");
-    //lcd.setCursor(8, 1);
     if (now.minute() < 10)
     {
       lcd.print("0");
@@ -305,7 +304,6 @@ int display_page()
       lcd.clear();
       lcd.setCursor(0, 0);
       lcd.print("B\303c\277a\263\270\277e \263pe\274\307");
-      //lcd.setCursor((select*3)+3, 1);
       lcd.blink();
       if (!digitalRead(3))
       {select = (select-1);
@@ -586,7 +584,6 @@ int display_page()
  
         if(select == 2) {day = day + (10*znak);}
         if(select == 3) {day = day + (1*znak);}
-//        if(select == 6) {month = (month_str[now.month() - 1]) + (1*znak);}
         if(day > max_day_per_month) {month++; day = 1;}
         if(day < 1) {month--; day = 27;} 
        }
